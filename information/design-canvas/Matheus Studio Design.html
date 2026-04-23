@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Matheus Studio — Design Exploration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* TYPE */
+    --font-serif: 'Instrument Serif', Georgia, serif;
+    --font-serif-alt: 'Newsreader', Georgia, serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* LIGHT (warm paper) */
+    --bg: oklch(0.985 0.006 85);
+    --bg-alt: oklch(0.965 0.01 80);
+    --ink: oklch(0.2 0.012 60);
+    --ink-soft: oklch(0.42 0.012 60);
+    --ink-faint: oklch(0.62 0.01 60);
+    --rule: oklch(0.88 0.01 70);
+    --accent: oklch(0.62 0.13 55);  /* warm amber */
+    --accent-soft: oklch(0.92 0.04 65);
+  }
+
+  .theme-dark {
+    --bg: oklch(0.14 0.008 80);
+    --bg-alt: oklch(0.18 0.008 80);
+    --ink: oklch(0.94 0.008 85);
+    --ink-soft: oklch(0.72 0.01 80);
+    --ink-faint: oklch(0.5 0.008 80);
+    --rule: oklch(0.28 0.008 80);
+    --accent: oklch(0.78 0.13 75); /* warm amber goes brighter on dark */
+    --accent-soft: oklch(0.28 0.04 70);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: #ececec;
+    color: #111;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Reset inside artboards so the canvas chrome doesn't leak in */
+  .board {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .board a { color: inherit; }
+  .board ::selection { background: var(--accent-soft); color: var(--ink); }
+
+  /* NAV (shared across boards) */
+  .mn-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 56px;
+    font-family: var(--font-sans);
+    border-bottom: 1px solid var(--rule);
+  }
+  .mn-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .mn-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, oklch(0.72 0.06 60), oklch(0.45 0.05 60));
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .mn-avatar::after{
+    content:"ML";
+    position:absolute; inset:0;
+    display:grid; place-items:center;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 16px;
+    color: #fff;
+    opacity: 0.9;
+  }
+  .mn-wordmark {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+  }
+  .mn-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .mn-nav-right a {
+    text-decoration: none;
+    color: inherit;
+    transition: color .15s;
+  }
+  .mn-nav-right a:hover { color: var(--accent); }
+  .mn-nav-right .mn-active { color: var(--ink); }
+  .mn-nav-right .mn-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* EDITORIAL TYPE */
+  .mn-display {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+  }
+  .mn-display-it { font-style: italic; }
+  .mn-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .mn-lead {
+    font-family: var(--font-serif-alt);
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+  .mn-body {
+    font-family: var(--font-serif-alt);
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .mn-body a, .mn-inline-link {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+    transition: border-color .15s;
+  }
+  .mn-body a:hover { border-bottom-color: var(--accent); }
+
+  .mn-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border-radius: 2px;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .mn-btn:hover { background: transparent; color: var(--ink); }
+  .mn-btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--rule);
+  }
+  .mn-btn-ghost:hover { border-color: var(--ink); background: transparent; color: var(--ink); }
+
+  /* TWEAKS PANEL */
+  #tweaks {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    width: 280px;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(10px);
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #222;
+    box-shadow: 0 20px 40px -12px rgba(0,0,0,0.2);
+    z-index: 99999;
+    display: none;
+  }
+  #tweaks.open { display: block; }
+  #tweaks h4 { margin: 0 0 12px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #555; }
+  #tweaks .row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
+  #tweaks label { flex: 0 0 auto; font-size: 11px; color: #666; }
+  #tweaks select, #tweaks input[type=range] { font-family: inherit; font-size: 11px; }
+  #tweaks select { padding: 4px 6px; border: 1px solid #ccc; border-radius: 3px; background: #fff; }
+  #tweaks .swatches { display: flex; gap: 6px; }
+  #tweaks .swatch { width: 20px; height: 20px; border-radius: 999px; cursor: pointer; border: 2px solid transparent; }
+  #tweaks .swatch.active { border-color: #111; }
+
+  /* Scrollable artboard content */
+  .mn-scroll {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+  }
+  .mn-scroll::-webkit-scrollbar { width: 8px; }
+  .mn-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
+
+  /* A rule element for editorial dividers */
+  .mn-rule { border: 0; border-top: 1px solid var(--rule); margin: 48px 0; }
+  .mn-rule-short { width: 60px; margin-left: 0; }
+
+  /* Placeholder photo */
+  .mn-photo {
+    background: linear-gradient(135deg, oklch(0.75 0.04 60), oklch(0.55 0.05 60));
+    position: relative;
+    overflow: hidden;
+  }
+  .mn-photo::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent 0 10px,
+      rgba(255,255,255,0.06) 10px 11px
+    );
+  }
+  .mn-photo::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 10px; left: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.1em;
+  }
+
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<!-- Tweaks panel -->
+<div id="tweaks">
+  <h4>Tweaks</h4>
+  <div class="row">
+    <label>Theme</label>
+    <select id="tw-theme">
+      <option value="light">Light (paper)</option>
+      <option value="dark">Dark (ink)</option>
+    </select>
+  </div>
+  <div class="row">
+    <label>Accent</label>
+    <div class="swatches" id="tw-accent"></div>
+  </div>
+  <div class="row">
+    <label>Display type</label>
+    <select id="tw-display">
+      <option value="instrument">Instrument Serif (italic)</option>
+      <option value="fraunces">Fraunces (serif)</option>
+      <option value="newsreader">Newsreader</option>
+    </select>
+  </div>
+  <div class="row">
+    <label>Body type</label>
+    <select id="tw-body">
+      <option value="newsreader">Newsreader (serif)</option>
+      <option value="inter">Inter (sans)</option>
+    </select>
+  </div>
+  <div class="row">
+    <label>Density</label>
+    <select id="tw-density">
+      <option value="airy">Airy</option>
+      <option value="default" selected>Default</option>
+      <option value="compact">Compact</option>
+    </select>
+  </div>
+  <div style="margin-top:10px;padding-top:10px;border-top:1px solid #eee;font-size:10px;color:#888;line-height:1.4;">
+    Tweaks apply globally to all artboards below.
+  </div>
+</div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="components/shared.jsx"></script>
+<script type="text/babel" src="components/home-essay.jsx"></script>
+<script type="text/babel" src="components/home-split.jsx"></script>
+<script type="text/babel" src="components/home-wordmark.jsx"></script>
+<script type="text/babel" src="components/about.jsx"></script>
+<script type="text/babel" src="components/projects.jsx"></script>
+<script type="text/babel" src="components/contact.jsx"></script>
+<script type="text/babel" src="components/handoff.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+
+<script>
+// Tweaks integration
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "light",
+  "accent": "cobalt",
+  "displayFont": "newsreader",
+  "bodyFont": "newsreader",
+  "density": "default"
+}/*EDITMODE-END*/;
+
+const ACCENTS = {
+  amber:   { light: 'oklch(0.62 0.13 55)',  dark: 'oklch(0.78 0.13 75)',  soft_l: 'oklch(0.92 0.04 65)', soft_d: 'oklch(0.28 0.04 70)'  },
+  ink:     { light: 'oklch(0.28 0.02 60)',  dark: 'oklch(0.85 0.01 80)',  soft_l: 'oklch(0.9 0.01 70)',  soft_d: 'oklch(0.28 0.01 70)' },
+  olive:   { light: 'oklch(0.52 0.08 130)', dark: 'oklch(0.75 0.1 130)',  soft_l: 'oklch(0.92 0.03 130)',soft_d: 'oklch(0.26 0.03 130)' },
+  rust:    { light: 'oklch(0.55 0.15 35)',  dark: 'oklch(0.72 0.15 40)',  soft_l: 'oklch(0.92 0.04 35)', soft_d: 'oklch(0.28 0.04 40)'  },
+  cobalt:  { light: 'oklch(0.5 0.12 245)',  dark: 'oklch(0.72 0.13 240)', soft_l: 'oklch(0.92 0.03 245)',soft_d: 'oklch(0.28 0.04 240)' },
+};
+const DISPLAY_FONTS = {
+  instrument: "'Instrument Serif', Georgia, serif",
+  fraunces:   "'Fraunces', Georgia, serif",
+  newsreader: "'Newsreader', Georgia, serif",
+};
+const BODY_FONTS = {
+  newsreader: "'Newsreader', Georgia, serif",
+  inter:      "'Inter', -apple-system, sans-serif",
+};
+
+function applyTweaks(t) {
+  const root = document.documentElement;
+  root.classList.toggle('theme-dark', t.theme === 'dark');
+  const a = ACCENTS[t.accent] || ACCENTS.amber;
+  const isDark = t.theme === 'dark';
+  root.style.setProperty('--accent', isDark ? a.dark : a.light);
+  root.style.setProperty('--accent-soft', isDark ? a.soft_d : a.soft_l);
+  root.style.setProperty('--font-serif', DISPLAY_FONTS[t.displayFont]);
+  root.style.setProperty('--font-serif-alt', BODY_FONTS[t.bodyFont]);
+
+  // density
+  const dens = t.density || 'default';
+  root.style.setProperty('--density-scale', dens === 'compact' ? '0.88' : dens === 'airy' ? '1.15' : '1');
+}
+
+let tweaks = { ...TWEAK_DEFAULTS };
+applyTweaks(tweaks);
+
+// populate controls
+(function setup() {
+  const $theme = document.getElementById('tw-theme');
+  const $accent = document.getElementById('tw-accent');
+  const $display = document.getElementById('tw-display');
+  const $body = document.getElementById('tw-body');
+  const $density = document.getElementById('tw-density');
+
+  // accent swatches
+  Object.entries(ACCENTS).forEach(([key, val]) => {
+    const s = document.createElement('div');
+    s.className = 'swatch' + (key === tweaks.accent ? ' active' : '');
+    s.style.background = val.light;
+    s.title = key;
+    s.onclick = () => {
+      tweaks.accent = key;
+      update();
+      $accent.querySelectorAll('.swatch').forEach(el => el.classList.remove('active'));
+      s.classList.add('active');
+    };
+    $accent.appendChild(s);
+  });
+
+  $theme.value = tweaks.theme;
+  $display.value = tweaks.displayFont;
+  $body.value = tweaks.bodyFont;
+  $density.value = tweaks.density;
+
+  $theme.onchange = e => { tweaks.theme = e.target.value; update(); };
+  $display.onchange = e => { tweaks.displayFont = e.target.value; update(); };
+  $body.onchange = e => { tweaks.bodyFont = e.target.value; update(); };
+  $density.onchange = e => { tweaks.density = e.target.value; update(); };
+
+  function update() {
+    applyTweaks(tweaks);
+    window.parent.postMessage({type: '__edit_mode_set_keys', edits: tweaks}, '*');
+  }
+})();
+
+// Edit mode protocol
+window.addEventListener('message', (e) => {
+  const d = e.data || {};
+  if (d.type === '__activate_edit_mode') {
+    document.getElementById('tweaks').classList.add('open');
+  } else if (d.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaks').classList.remove('open');
+  }
+});
+window.parent.postMessage({type: '__edit_mode_available'}, '*');
+</script>
+
+</body>
+</html>

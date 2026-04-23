@@ -1,101 +1,89 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Norican } from "next/font/google";
+import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useSelectedLayoutSegment } from "next/navigation";
+import { usePathname } from "next/navigation";
 import * as React from "react";
 
-import { Icons } from "@/components/common/icons";
 import { MobileNav } from "@/components/common/mobile-nav";
+import { Icons } from "@/components/common/icons";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import profileImg from "@/public/profile-img.jpg";
+
+interface NavItem {
+  title: string;
+  href: string;
+  icon?: keyof typeof Icons;
+  external?: boolean;
+  disabled?: boolean;
+}
 
 interface MainNavProps {
-  items?: any[];
+  items?: NavItem[];
   children?: React.ReactNode;
 }
 
-const norican = Norican({
-  weight: ["400"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-// Animation variants for the navigation items
-const navItemVariants = {
-  hidden: { opacity: 0, y: -20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: 0.1 * i,
-      duration: 0.5,
-      ease: "easeOut" as const,
-    },
-  }),
-};
-
 export function MainNav({ items, children }: MainNavProps) {
-  const segment = useSelectedLayoutSegment();
-  const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
   const pathname = usePathname();
+  const [showMobileMenu, setShowMobileMenu] = React.useState(false);
 
   React.useEffect(() => {
     setShowMobileMenu(false);
   }, [pathname]);
 
   return (
-    <div className="flex gap-6 md:gap-10">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Link href="/" className="hidden items-center space-x-2 md:flex">
-          <span className={cn(norican.className, "text-2xl")}>
-            {siteConfig.authorName}
-          </span>
-        </Link>
-      </motion.div>
+    <div className="flex items-center gap-8">
+      {/* Wordmark */}
+      <Link href="/" className="hidden items-center gap-2.5 md:flex" aria-label="Home">
+        <Image
+          src={profileImg}
+          alt="Matheus Liberato"
+          width={36}
+          height={36}
+          className="rounded-full object-cover flex-shrink-0"
+          priority
+        />
+        <span
+          className="italic text-[22px] leading-none tracking-tight font-heading"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
+          {siteConfig.authorName}
+        </span>
+      </Link>
+
+      {/* Desktop nav */}
       {items?.length ? (
-        <nav className="hidden gap-6 md:flex items-center">
-          {items?.map((item, index) => (
-            <motion.div
+        <nav className="hidden gap-7 md:flex items-center">
+          {items.map((item, index) => (
+            <Link
               key={index}
-              custom={index}
-              initial="hidden"
-              animate="visible"
-              variants={navItemVariants}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              href={item.disabled ? "#" : item.href}
+              target={item.external ? "_blank" : undefined}
+              rel={item.external ? "noopener noreferrer" : undefined}
+              className={cn(
+                "font-sans text-[13px] font-medium tracking-[0.02em] transition-colors",
+                item.href === pathname
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-accent-foreground",
+                item.disabled && "cursor-not-allowed opacity-60"
+              )}
             >
-              <Link
-                href={item.disabled ? "#" : item.href}
-                className={cn(
-                  "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
-                  item.href.startsWith(`/${segment}`)
-                    ? "text-foreground"
-                    : "text-foreground/60",
-                  item.disabled && "cursor-not-allowed opacity-80"
-                )}
-              >
-                {item.title}
-              </Link>
-            </motion.div>
+              {item.title}
+            </Link>
           ))}
         </nav>
       ) : null}
-      <motion.button
+
+      {/* Mobile trigger */}
+      <button
         className="flex items-center space-x-2 md:hidden"
         onClick={() => setShowMobileMenu(!showMobileMenu)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        aria-label="Toggle menu"
       >
         {showMobileMenu ? <Icons.close /> : <Icons.menu />}
-        <span className="font-bold">Menu</span>
-      </motion.button>
+        <span className="font-sans text-sm font-medium">Menu</span>
+      </button>
       {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )}

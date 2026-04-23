@@ -8,7 +8,6 @@ type PagesConfig = {
       title: string;
       description: string;
     };
-    // featuredDescription: string;
   };
 };
 
@@ -17,69 +16,36 @@ export const pagesConfig: PagesConfig = {
     title: "Home",
     description: "Welcome to my portfolio website.",
     metadata: {
-      title: "Home",
-      description: "Naman Barkiya's portfolio website.",
-    },
-  },
-  skills: {
-    title: "Skills",
-    description: "Key skills that define my professional identity.",
-    metadata: {
-      title: "Skills",
+      title: "Matheus Liberato - AI Developer & Web Consultant",
       description:
-        "Naman Barkiya's key skills that define his professional identity.",
+        "Matheus Liberato — AI Developer & Web Consultant based in Sydney. I help individuals and small businesses build software, websites, and learn to use AI.",
     },
   },
   projects: {
     title: "Projects",
-    description: "Showcasing impactful projects and technical achievements.",
+    description: "A selection of software and AI projects I've built.",
     metadata: {
-      title: "Projects",
-      description: "Naman Barkiya's projects in building web applications.",
+      title: "Projects | Matheus Liberato",
+      description:
+        "Projects by Matheus Liberato — AI tools, web applications, and LLM research.",
+    },
+  },
+  about: {
+    title: "About",
+    description: "Background, skills, and what drives my work.",
+    metadata: {
+      title: "About | Matheus Liberato",
+      description:
+        "About Matheus Liberato — multidisciplinary background in engineering, psychology, and applied sciences. Currently researching LLMs and building for small businesses.",
     },
   },
   contact: {
     title: "Contact",
-    description: "Let's connect and explore collaborations.",
+    description: "Let's connect and build something together.",
     metadata: {
-      title: "Contact",
-      description: "Contact Naman Barkiya.",
-    },
-  },
-  contributions: {
-    title: "Contributions",
-    description: "Open-source contributions and community involvement.",
-    metadata: {
-      title: "Contributions",
+      title: "Contact | Matheus Liberato",
       description:
-        "Naman Barkiya's open-source contributions and community involvement.",
-    },
-  },
-  resume: {
-    title: "Resume",
-    description: "Naman Barkiya's resume.",
-    metadata: {
-      title: "Resume",
-      description: "Naman Barkiya's resume.",
-    },
-  },
-  blogs: {
-    title: "Blogs",
-    description:
-      "Thoughts on AI, software engineering, and building in public.",
-    metadata: {
-      title: "Blogs",
-      description:
-        "Naman Barkiya's blog — thoughts on AI, software engineering, and building in public.",
-    },
-  },
-  experience: {
-    title: "Experience",
-    description: "Professional journey and career timeline.",
-    metadata: {
-      title: "Experience",
-      description:
-        "Naman Barkiya's professional journey and experience timeline.",
+        "Get in touch with Matheus Liberato for web development, AI tools, or one-on-one AI guidance.",
     },
   },
 };

@@ -1,28 +1,18 @@
-export const routesConfig: any = {
+import { siteConfig } from "@/config/site";
+
+export const routesConfig = {
   mainNav: [
     {
-      title: "Projects",
-      href: "/projects",
+      title: "Work",
+      href: "/work",
     },
     {
-      title: "Experience",
-      href: "/experience",
+      title: "About",
+      href: "/about",
     },
     {
-      title: "Contributions",
-      href: "/contributions",
-    },
-    {
-      title: "Skills",
-      href: "/skills",
-    },
-    {
-      title: "Blogs",
-      href: "/blogs",
-    },
-    {
-      title: "Community",
-      href: "/community",
+      title: "Services",
+      href: "/services",
     },
     {
       title: "Contact",
