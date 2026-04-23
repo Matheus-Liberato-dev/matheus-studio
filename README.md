@@ -147,3 +147,4 @@ Check out the [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ---
 
 **Built with ❤️ by [Naman Barkiya](https://github.com/namanbarkiya)**
+ 
