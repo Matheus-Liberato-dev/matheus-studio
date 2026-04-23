@@ -22,7 +22,7 @@ export default function AboutPage() {
         delay={0.2}
         className="font-heading text-[48px] sm:text-[64px] leading-[0.95] tracking-[-0.01em] mb-12"
       >
-        
+        About Me
       </AnimatedText>
 
       <div className="space-y-6 text-[17px] sm:text-[18px] leading-[1.7]">
@@ -42,11 +42,8 @@ export default function AboutPage() {
         delay={0.2}
         className="font-heading text-[32px] sm:text-[32px] leading-[0.95] tracking-[-0.01em] mb-12"
       >
-        
+        Teaching Background
       </AnimatedText>
-      <h2>
-        
-      </h2>
         <p>
           I have nearly seven years experience of private tutoring in mathematics, physics, and chemistry. 
           I have worked with students from primary school through to university level, 
