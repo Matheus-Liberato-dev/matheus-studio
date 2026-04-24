@@ -6,7 +6,7 @@ import { AnimatedText } from "@/components/common/animated-text";
 
 const links = [
   { path: "/about",    label: "longer bio, background, how I got here",       href: "/about",                                        external: false },
-  { path: "/work",     label: "selected client and research projects",          href: "/work",                                         external: false },
+  // { path: "/work",     label: "selected client and research projects",          href: "/work",                                         external: false },
   { path: "/services", label: "websites, tools, AI coaching, 1:1 sessions",    href: "/services",                                     external: false },
   { path: "/shajara",  label: "current R&D project — shajara.au",              href: "https://shajara.au",                            external: true  },
   { path: "/github",   label: "Matheus-Liberato-dev",                         href: "https://github.com/Matheus-Liberato-dev",       external: true  },

@@ -48,7 +48,7 @@ export default function HomePage() {
           Matheus
         </AnimatedText>
         <h2 className="font-heading italic text-[56px] sm:text-[80px] lg:text-[96px] leading-[0.95] tracking-[-0.01em] mb-14">
-          Liberato<span className="text-accent-foreground">.</span>
+          Liberato
         </h2>
 
         {/* Lead */}
