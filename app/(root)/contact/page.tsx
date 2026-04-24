@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Phone } from "lucide-react";
-
 import { AnimatedText } from "@/components/common/animated-text";
 
 const links = [
@@ -131,13 +129,11 @@ export default function ContactPage() {
       <hr className="border-t border-[var(--rule)] mt-12 mb-10" />
 
       <div>
-        <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground mb-3">
-          Phone
-        </p>
+        <h2 className="font-heading font-bold text-[22px] mb-4">Phone</h2>
         {phoneRevealed ? (
           <a
             href="tel:+61490705595"
-            className="font-heading text-[28px] sm:text-[32px] leading-[1.1] hover:opacity-70 transition-opacity"
+            className="font-heading text-[22px] leading-[1.5] prose-link"
           >
             0490 705 595
           </a>
@@ -145,10 +141,9 @@ export default function ContactPage() {
           <button
             type="button"
             onClick={() => setPhoneRevealed(true)}
-            className="inline-flex items-center gap-2 font-sans text-[13px] font-medium tracking-[0.02em] px-5 py-2.5 border border-input bg-background rounded-[var(--radius)] hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="font-heading text-[18px] text-accent-foreground hover:opacity-70 transition-opacity"
           >
-            <Phone size={14} strokeWidth={1.75} />
-            Show number
+            Show number →
           </button>
         )}
       </div>
@@ -156,29 +151,23 @@ export default function ContactPage() {
       <hr className="border-t border-[var(--rule)] my-10" />
 
       <div>
-        <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground mb-6">
-          /links
-        </p>
-        <nav className="space-y-0">
+        <h2 className="font-heading font-bold text-[22px] mb-6">Links</h2>
+        <ul className="mn-linklist">
           {links.map((item) => (
-            <div
-              key={item.path}
-              className="flex items-baseline gap-5 border-b border-dashed border-border py-3"
-            >
-              <span className="font-mono text-[11px] text-accent-foreground tracking-[0.05em] flex-shrink-0 w-24">
-                {item.path}
-              </span>
+            <li key={item.path}>
               <Link
                 href={item.href}
                 target={item.external ? "_blank" : undefined}
                 rel={item.external ? "noopener noreferrer" : undefined}
-                className="prose-link font-heading text-[15px] text-muted-foreground"
+                className="mn-slashpath"
               >
-                {item.label}
+                {item.path}
               </Link>
-            </div>
+              <span className="mn-colon">:</span>
+              <span className="mn-linkdesc">{item.label}</span>
+            </li>
           ))}
-        </nav>
+        </ul>
       </div>
 
     </div>

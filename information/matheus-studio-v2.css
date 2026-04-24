@@ -1,0 +1,317 @@
+/* =========================================================
+   matheus.studio — visual tokens & component styles
+   Extracted from the design canvas. Drop-in for globals.css.
+   ========================================================= */
+
+/* --- Fonts (add to app/layout.tsx <head>) ---
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+*/
+
+:root {
+  /* TYPE */
+  --font-serif:         'Newsreader', Georgia, serif;
+  --font-serif-alt:     'Newsreader', Georgia, serif;
+  --font-serif-italic:  'Instrument Serif', Georgia, serif;
+  --font-sans:          'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:          'JetBrains Mono', ui-monospace, monospace;
+
+  /* LIGHT (default) — warm paper */
+  --bg:         oklch(0.985 0.008 85);
+  --bg-alt:     oklch(0.96  0.012 80);
+  --bg-sink:    oklch(0.94  0.015 78);
+  --ink:        oklch(0.22  0.015 60);
+  --ink-soft:   oklch(0.44  0.015 60);
+  --ink-faint:  oklch(0.64  0.012 60);
+  --ink-ghost:  oklch(0.78  0.01  60);
+  --rule:       oklch(0.88  0.012 70);
+  --rule-soft:  oklch(0.92  0.012 75);
+  --accent:     oklch(0.58  0.13  45);   /* warm terracotta */
+  --accent-soft:oklch(0.93  0.045 55);
+  --accent-ink: oklch(0.42  0.12  40);   /* hover / darker */
+}
+
+/* DARK — ink */
+.theme-dark,
+.dark {
+  --bg:         oklch(0.14 0.008 80);
+  --bg-alt:     oklch(0.18 0.008 80);
+  --bg-sink:    oklch(0.20 0.008 80);
+  --ink:        oklch(0.94 0.008 85);
+  --ink-soft:   oklch(0.72 0.01  80);
+  --ink-faint:  oklch(0.54 0.008 80);
+  --ink-ghost:  oklch(0.38 0.008 80);
+  --rule:       oklch(0.28 0.008 80);
+  --rule-soft:  oklch(0.22 0.008 80);
+  --accent:     oklch(0.76 0.13  60);
+  --accent-soft:oklch(0.28 0.05  55);
+  --accent-ink: oklch(0.86 0.12  60);
+}
+
+/* =========================================================
+   Base
+   ========================================================= */
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--accent-soft); color: var(--ink); }
+
+/* =========================================================
+   Nav
+   ========================================================= */
+.mn-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 56px;
+  font-family: var(--font-sans);
+  border-bottom: 1px solid var(--rule-soft);
+}
+.mn-nav-left  { display: flex; align-items: center; gap: 14px; }
+.mn-avatar {
+  width: 36px; height: 36px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, oklch(0.72 0.06 55), oklch(0.48 0.08 45));
+}
+.mn-wordmark {
+  font-family: var(--font-serif-italic);
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+.mn-nav-right {
+  display: flex; align-items: center; gap: 28px;
+  font-size: 13px; font-weight: 500; color: var(--ink-soft);
+}
+.mn-nav-right a {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  transition: color .15s;
+}
+.mn-nav-right a:hover       { color: var(--accent); }
+.mn-nav-right .mn-active    { color: var(--ink); }
+.mn-nav-right .mn-active::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* =========================================================
+   Typography
+   ========================================================= */
+.mn-display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+}
+.mn-display-it {
+  font-family: var(--font-serif-italic);
+  font-style: italic;
+  letter-spacing: 0;
+}
+.mn-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.mn-lead {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 1.55;
+  color: var(--ink);
+  font-weight: 300;
+  text-wrap: pretty;
+}
+.mn-body {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.7;
+  color: var(--ink);
+  font-weight: 400;
+  text-wrap: pretty;
+}
+.mn-body p + p { margin-top: 1.25em; }
+
+/* Inline prose link — the cornerstone */
+.mn-body a,
+.mn-inline-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+  padding: 0 1px;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.mn-body a:hover,
+.mn-inline-link:hover {
+  border-bottom-color: var(--accent);
+  color: var(--accent-ink);
+  background: color-mix(in oklab, var(--accent) 8%, transparent);
+}
+
+/* Heavy serif H2 (for "Links", "About Me", etc.) */
+.mn-h2 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 40px;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  margin: 0 0 28px;
+  color: var(--ink);
+}
+.mn-h2-inline-em {
+  font-family: var(--font-serif-italic);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+.mn-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: 2px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .15s;
+}
+.mn-btn:hover { background: transparent; color: var(--ink); }
+
+.mn-btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--rule);
+}
+.mn-btn-ghost:hover { border-color: var(--ink); }
+
+/* Quiet next-action arrow link */
+.mn-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color .15s, gap .15s;
+}
+.mn-next .arrow { font-family: var(--font-mono); font-size: 16px; }
+.mn-next:hover  { border-bottom-color: var(--accent); gap: 14px; }
+
+/* =========================================================
+   Rules / dividers
+   ========================================================= */
+.mn-rule        { border: 0; border-top: 1px solid var(--rule); margin: 56px 0; }
+.mn-rule-short  { width: 48px; margin-left: 0; border-top: 1px solid var(--accent); }
+.mn-rule-dotted { border: 0; border-top: 1px dashed var(--rule); margin: 40px 0; }
+
+/* =========================================================
+   Footer
+   ========================================================= */
+.mn-footer {
+  border-top: 1px solid var(--rule-soft);
+  padding: 40px 56px 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* =========================================================
+   Aside / sidenote
+   ========================================================= */
+.mn-aside {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   Dergigi-style Links list
+   <ul class="mn-linklist">
+     <li>
+       <a class="mn-slashpath" href="...">/path</a><span class="mn-colon">:</span>
+       <span class="mn-linkdesc">description</span>
+     </li>
+     <li class="mn-linklist-disabled">...</li>
+   </ul>
+   ========================================================= */
+.mn-linklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.mn-linklist li {
+  position: relative;
+  display: block;
+  padding: 10px 0 10px 26px;
+}
+.mn-linklist li::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1.05em;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--ink-ghost);
+}
+.mn-linklist .mn-slashpath {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+  padding: 0 1px;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.mn-linklist .mn-slashpath:hover {
+  border-bottom-color: var(--accent);
+  color: var(--accent-ink);
+  background: color-mix(in oklab, var(--accent) 9%, transparent);
+}
+.mn-linklist .mn-colon    { color: var(--ink); }
+.mn-linklist .mn-linkdesc { color: var(--ink); margin-left: 6px; }
+
+.mn-linklist li.mn-linklist-disabled .mn-slashpath,
+.mn-linklist li.mn-linklist-disabled .mn-linkdesc {
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-faint);
+  color: var(--ink-faint);
+  opacity: 0.85;
+}
+.mn-linklist li.mn-linklist-disabled .mn-slashpath {
+  border-bottom-color: transparent;
+}
